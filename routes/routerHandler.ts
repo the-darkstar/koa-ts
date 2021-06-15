@@ -5,13 +5,14 @@ type methods = 'GET' | 'POST'
 
 function routerHandler(route: Function) {
   return async (ctx: KoaContext, next: () => Promise<any>) => {
-    try {
-      await next()
-      const response = await route(ctx)
+    await next()
+    const response = await route(ctx)
+    if (response.error) {
+      const { status, body } = response.error
+      ctx.status = status
+      ctx.body = body
+    } else {
       ctx.status = 200
-      ctx.body = response
-    } catch (err) {
-      const response = await route(ctx)
       ctx.body = response
     }
   }
