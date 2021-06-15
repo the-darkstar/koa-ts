@@ -16,7 +16,7 @@ class Auth implements Authentication {
 
   handleAuth = async (ctx: KoaContext, next: () => Promise<any>) => {
     if (ctx.path === '/protected') {
-      const base64Credentials = ctx.request.header?.authorization?.split(' ')[1]
+      const base64Credentials = ctx.request.header.authorization?.split(' ')[1]
       if (base64Credentials) {
         const credentials = Buffer.from(base64Credentials, 'base64').toString(
           'ascii'
