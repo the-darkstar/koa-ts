@@ -44,7 +44,7 @@ describe('Tests for task2', () => {
 
   test('should return header not present after authentication failure', async () => {
     const response = await request(server).get('/protected')
-    expect(response.status).toBe(401)
+    expect(response.status).toBe(400)
     expect(response.body).toEqual({ msg: 'authentication header not present' })
   })
 
@@ -52,7 +52,7 @@ describe('Tests for task2', () => {
     const response = await request(server)
       .get('/protected')
       .set('Authorization', 'Basic YWRtaW48MTIz')
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(401)
     expect(response.body).toEqual({ msg: 'invalid username or password' })
   })
 })

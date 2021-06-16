@@ -1,12 +1,11 @@
 import * as Router from 'koa-router'
-import { KoaContext } from '../types'
+import { KoaContext, middleware } from '../types'
 
 type methods = 'GET' | 'POST'
 
 function routerHandler(route: Function) {
   return async (ctx: KoaContext, next: () => Promise<any>) => {
     try {
-      await next()
       const response = await route(ctx)
       if (response.error) {
         const { status, body } = response.error
@@ -16,9 +15,9 @@ function routerHandler(route: Function) {
         ctx.status = 200
         ctx.body = response
       }
+      await next()
     } catch (err) {
       ctx.status = 500
-      return ctx
     }
   }
 }
@@ -27,7 +26,7 @@ function routeHelper(
   routes: {
     url: string
     methods: methods[]
-    middleware?: any[]
+    middleware?: middleware[]
     route: Function
   }[],
   router: Router<any, {}>

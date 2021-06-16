@@ -1,12 +1,13 @@
 import * as Router from 'koa-router'
 import Auth from '../middleware/Auth'
 import { routeHelper } from './routerHandler'
+import { KoaContext, middleware } from '../types'
 
 interface task2Router {
   getAccess: () => string
 }
 
-class Task2 implements task2Router {
+export class Task2 implements task2Router {
   public static instance: Task2 | undefined = undefined
   public static getInstance(): Task2 {
     if (this.instance !== undefined) return this.instance
@@ -27,7 +28,7 @@ type methods = 'GET'
 const routes: {
   url: string
   methods: methods[]
-  middleware?: any[]
+  middleware?: middleware[]
   route: Function
 }[] = [
   {

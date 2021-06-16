@@ -8,7 +8,7 @@ interface taskOneRouter {
   getError: () => { error: { status: Number; body: object } }
 }
 
-class TaskOne implements taskOneRouter {
+export class TaskOne implements taskOneRouter {
   public static instance: TaskOne | undefined = undefined
   public static getInstance(): TaskOne {
     if (this.instance !== undefined) return this.instance

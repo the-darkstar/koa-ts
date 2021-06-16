@@ -1,7 +1,7 @@
 import { KoaContext } from '../types'
 
 interface Authentication {
-  handleAuth: (ctx: KoaContext, next: () => Promise<any>) => Promise<KoaContext>
+  handleAuth: (ctx: KoaContext, next: () => Promise<any>) => void
 }
 
 class Auth implements Authentication {
@@ -26,12 +26,10 @@ class Auth implements Authentication {
       } else {
         ctx.status = 401
         ctx.body = { msg: 'invalid username or password' }
-        return ctx
       }
     } else {
       ctx.status = 400
       ctx.body = { msg: 'authentication header not present' }
-      return ctx
     }
   }
 }
