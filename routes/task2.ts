@@ -1,4 +1,5 @@
 import * as Router from 'koa-router'
+import Auth from '../middleware/Auth'
 import { routeHelper } from './routerHandler'
 
 interface task2Router {
@@ -23,10 +24,16 @@ const router = new Router()
 const Task2Instance = Task2.getInstance()
 type methods = 'GET'
 
-const routes: { url: string; methods: methods[]; route: Function }[] = [
+const routes: {
+  url: string
+  methods: methods[]
+  middleware?: any[]
+  route: Function
+}[] = [
   {
     url: '/protected',
     methods: ['GET'],
+    middleware: [Auth],
     route: Task2Instance.getAccess,
   },
 ]
