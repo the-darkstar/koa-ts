@@ -1,7 +1,7 @@
 import * as Router from 'koa-router'
 import Auth from '../middleware/Auth'
 import { routeHelper } from './routerHandler'
-import { KoaContext, middleware } from '../types'
+import { middleware } from '../types'
 
 interface task2Router {
   getAccess: () => string

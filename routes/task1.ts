@@ -5,7 +5,7 @@ import { routeHelper } from './routerHandler'
 interface taskOneRouter {
   getWorld: () => string
   getQueryParams: (ctx: KoaContext) => any
-  getError: () => { error: { status: Number; body: object } }
+  getError: () => { error: { msg: string } }
 }
 
 export class TaskOne implements taskOneRouter {
@@ -27,10 +27,7 @@ export class TaskOne implements taskOneRouter {
 
   getError = () => {
     return {
-      error: {
-        body: { msg: 'server error' },
-        status: 500,
-      },
+      error: { msg: 'server error' },
     }
   }
 }
