@@ -1,4 +1,4 @@
-import { Task2 } from './task2'
+import { Task2 } from './protectedRoute'
 
 describe('tests for task2', () => {
   const task2 = Task2.getInstance()

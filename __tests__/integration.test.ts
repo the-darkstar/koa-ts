@@ -26,12 +26,14 @@ describe('Tests for task1', () => {
 
   test('should return error', async () => {
     const response = await request(server).get('/error')
-    expect(response.status).toBe(500)
-    expect(response.body).toEqual({ msg: 'server error' })
+    expect(response.body).toEqual({
+      error: { msg: 'server error' },
+    })
   })
 })
 
 describe('Tests for task2', () => {
+  ;``
   test('should return string after authentication', async () => {
     const response = await request(server)
       .get('/protected')

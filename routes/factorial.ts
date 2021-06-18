@@ -44,20 +44,27 @@ export class Task3 implements Task3Router {
   constructor() {}
 
   slow = (n: number) => {
-    if (n === 1) return 1
-    else {
-      this.lookup[n] = (n * this.slow(n - 1)) % this.divisor
-      return this.lookup[n]
+    let result = 1
+    for (let i = 1; i <= n; i++) {
+      result = (result * i) % this.divisor
+      this.lookup[i] = result
     }
+    return result
   }
 
   fast = (n: number) => {
-    if (n === 1) return 1
     if (this.lookup[n]) return this.lookup[n]
-    else {
-      this.lookup[n] = (n * this.slow(n - 1)) % this.divisor
-      return this.lookup[n]
+
+    let result = 1
+    for (let i = n; i >= 1; i--) {
+      if (this.lookup[i]) {
+        result = (result * this.lookup[i]) % this.divisor
+        this.lookup[n] = result
+        break
+      }
+      result = (result * i) % this.divisor
     }
+    return result
   }
 
   calculateFactorial = (ctx: KoaContext) => {
@@ -70,7 +77,17 @@ export class Task3 implements Task3Router {
           reason: ' 1 <= number <= 1e8',
           dateTime: new Date(),
           message: 'number out of range',
-          details: { n },
+          details: { number: n },
+        },
+      }
+      return errorResponse
+    } else if (!(method === 'fast' || method === 'slow')) {
+      const errorResponse: errorResponse = {
+        error: {
+          reason: 'request can either be fast or slow',
+          dateTime: new Date(),
+          message: 'invalid request',
+          details: { request: method || '' },
         },
       }
       return errorResponse

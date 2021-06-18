@@ -2,8 +2,8 @@ import * as Koa from 'koa'
 import * as bodyParser from 'koa-bodyparser'
 import Logger from './middleware/Logger'
 import task1 from './routes/task1'
-import task2 from './routes/task2'
-import task3 from './routes/task3'
+import task2 from './routes/protectedRoute'
+import task3 from './routes/factorial'
 const app = new Koa()
 
 const PORT = process.env.PORT || 3000

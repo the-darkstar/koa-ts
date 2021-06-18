@@ -21,10 +21,7 @@ describe('tests for task1', () => {
   test('should return error', () => {
     const response = taskOneInstance.getError()
     expect(response).toEqual({
-      error: {
-        body: { msg: 'server error' },
-        status: 500,
-      },
+      error: { msg: 'server error' },
     })
   })
 })
