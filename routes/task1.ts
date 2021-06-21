@@ -5,10 +5,10 @@ import { routeHelper } from './routerHandler'
 interface taskOneRouter {
   getWorld: () => string
   getQueryParams: (ctx: KoaContext) => any
-  getError: () => { error: { status: Number; message: string } }
+  getError: () => { error: { status: Number; body: object } }
 }
 
-class TaskOne implements taskOneRouter {
+export class TaskOne implements taskOneRouter {
   public static instance: TaskOne | undefined = undefined
   public static getInstance(): TaskOne {
     if (this.instance !== undefined) return this.instance
@@ -20,7 +20,7 @@ class TaskOne implements taskOneRouter {
   getWorld = () => {
     return 'world'
   }
-  
+
   getQueryParams = (ctx: KoaContext) => {
     return ctx.request.query
   }
@@ -28,7 +28,7 @@ class TaskOne implements taskOneRouter {
   getError = () => {
     return {
       error: {
-        message: 'internal server error',
+        body: { msg: 'server error' },
         status: 500,
       },
     }

@@ -12,6 +12,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@shopify/jest-koa-mocks": "^3.0.1",
         "@types/supertest": "^2.0.11",
         "koa": "^2.13.1",
         "koa-bodyparser": "^4.3.0",
@@ -34,9 +35,6 @@
         "collectCoverage": true,
         "modulePathIgnorePatterns": [
             "<rootDir>/node_modules/"
-        ],
-        "roots": [
-            "<rootDir>/__tests__"
         ],
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
