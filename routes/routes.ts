@@ -1,7 +1,56 @@
 import * as Router from 'koa-router'
 import Auth from '../middleware/Auth'
-import { routeHelper } from './routerHandler'
+import Logger from '../middleware/Logger'
+import { routeHelper } from './routeHandler'
 import { KoaContext, middleware } from '../types'
+
+interface TaskOneRouter {
+  getWorld: () => string
+  getQueryParams: (ctx: KoaContext) => any
+  getError: () => { error: { msg: string } }
+}
+
+export class TaskOne implements TaskOneRouter {
+  public static instance: TaskOne | undefined = undefined
+  public static getInstance(): TaskOne {
+    if (this.instance !== undefined) return this.instance
+    this.instance = new TaskOne()
+    return this.instance
+  }
+  constructor() {}
+
+  getWorld = () => {
+    return 'world'
+  }
+
+  getQueryParams = (ctx: KoaContext) => {
+    return ctx.request.query
+  }
+
+  getError = () => {
+    return {
+      error: { msg: 'server error' },
+    }
+  }
+}
+
+interface TaskTwoRouter {
+  getAccess: () => string
+}
+
+export class TaskTwo implements TaskTwoRouter {
+  public static instance: TaskTwo | undefined = undefined
+  public static getInstance(): TaskTwo {
+    if (this.instance !== undefined) return this.instance
+    this.instance = new TaskTwo()
+    return this.instance
+  }
+  constructor() {}
+
+  getAccess = () => {
+    return `if you're seeing this message. You have access.`
+  }
+}
 
 interface FactorialRouter {
   fast: (n: number) => number
@@ -35,10 +84,8 @@ export class Factorial implements FactorialRouter {
   private lookup = {}
   public static getInstance(): Factorial {
     if (this.instance !== undefined) return this.instance
-    else {
-      this.instance = new Factorial()
-      return this.instance
-    }
+    this.instance = new Factorial()
+    return this.instance
   }
 
   constructor() {}
@@ -111,19 +158,45 @@ export class Factorial implements FactorialRouter {
 }
 
 const router = new Router()
+const taskOneInstance = TaskOne.getInstance()
+const taskTwoInstance = TaskTwo.getInstance()
 const factorialInstance = Factorial.getInstance()
 type methods = 'GET'
 
 const routes: {
   url: string
   methods: methods[]
-  middleware?: middleware[]
+  middleware: middleware[]
   route: Function
 }[] = [
   {
+    url: '/hello',
+    methods: ['GET'],
+    middleware: [Logger],
+    route: taskOneInstance.getWorld,
+  },
+  {
+    url: '/echo',
+    methods: ['GET'],
+    middleware: [Logger],
+    route: taskOneInstance.getQueryParams,
+  },
+  {
+    url: '/error',
+    methods: ['GET'],
+    middleware: [Logger],
+    route: taskOneInstance.getError,
+  },
+  {
+    url: '/protected',
+    methods: ['GET'],
+    middleware: [Auth, Logger],
+    route: taskTwoInstance.getAccess,
+  },
+  {
     url: `/api/v1/factorial/:number`,
     methods: ['GET'],
-    middleware: [Auth],
+    middleware: [Auth, Logger],
     route: factorialInstance.calculateFactorial,
   },
 ]

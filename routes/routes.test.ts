@@ -1,4 +1,4 @@
-import { TaskOne } from './task1'
+import { TaskOne, TaskTwo } from './routes'
 import { createMockContext } from '@shopify/jest-koa-mocks'
 
 describe('tests for task1', () => {
@@ -23,5 +23,13 @@ describe('tests for task1', () => {
     expect(response).toEqual({
       error: { msg: 'server error' },
     })
+  })
+})
+
+describe('tests for task2', () => {
+  const task2 = TaskTwo.getInstance()
+  test('should return a string', () => {
+    const response = task2.getAccess()
+    expect(response).toBe(`if you're seeing this message. You have access.`)
   })
 })

@@ -3,7 +3,7 @@ import { KoaContext, middleware } from '../types'
 
 type methods = 'GET' | 'POST'
 
-function routerHandler(route: Function) {
+function routeHandler(route: Function) {
   return async (ctx: KoaContext, next: () => Promise<any>) => {
     try {
       await next()
@@ -20,16 +20,14 @@ function routeHelper(
   routes: {
     url: string
     methods: methods[]
-    middleware?: middleware[]
+    middleware: middleware[]
     route: Function
   }[],
   router: Router<any, {}>
 ) {
   for (let item of routes) {
     const { url, methods, route, middleware } = item
-    if (middleware) {
-      router.register(url, methods, [...middleware, routerHandler(route)])
-    } else router.register(url, methods, routerHandler(route))
+    router.register(url, methods, [...middleware, routeHandler(route)])
   }
 }
-export { routerHandler, routeHelper }
+export { routeHandler, routeHelper }
