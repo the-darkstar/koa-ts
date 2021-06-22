@@ -1,4 +1,4 @@
-import { TaskOne, TaskTwo } from './routes'
+import { TaskOne, TaskTwo, Factorial } from './routes'
 import { createMockContext } from '@shopify/jest-koa-mocks'
 
 describe('tests for task1', () => {
@@ -31,5 +31,17 @@ describe('tests for task2', () => {
   test('should return a string', () => {
     const response = task2.getAccess()
     expect(response).toBe(`if you're seeing this message. You have access.`)
+  })
+})
+
+describe('tests for factorial', () => {
+  const factorial = Factorial.getInstance()
+  test('should return factorial under different conditions', () => {
+    let result = factorial.slow(10000)
+    expect(result).toBe(531950728)
+    result = factorial.fast(10000)
+    expect(result).toBe(531950728)
+    result = factorial.fast(10001)
+    expect(result).toBe(39193488)
   })
 })
