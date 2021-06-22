@@ -11,7 +11,7 @@ function routerHandler(route: Function) {
       ctx.status = 200
       ctx.body = response
     } catch (err) {
-      ctx.throw(err)
+      ctx.status = 500
     }
   }
 }

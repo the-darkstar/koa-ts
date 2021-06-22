@@ -74,10 +74,9 @@ const Logger = async (ctx: KoaContext, next: () => Promise<any>) => {
       startTimeStamp,
       duration,
       routeName: ctx.url,
-      message: err?.body?.msg || err?.body?.error?.message,
+      message: err.message,
       method: ctx.method,
     })
-    ctx.throw(err)
   }
 }
 
