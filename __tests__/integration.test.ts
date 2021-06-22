@@ -64,9 +64,7 @@ describe('tests for logger', () => {
   })
 
   test('log method should be called', async () => {
-    const spy = jest
-      .spyOn(createWinstonLogger(), 'log')
-      .mockImplementation(() => true)
+    const spy = jest.spyOn(createWinstonLogger(), 'log')
     await request(server).get('/hello')
     expect(spy).toHaveBeenCalledTimes(1)
   })
@@ -75,7 +73,7 @@ describe('tests for logger', () => {
     const spy = jest
       .spyOn(createWinstonLogger(), 'log')
       .mockImplementationOnce(() => {
-        throw new Error('error')
+        throw new Error('generated error')
       })
     await request(server).get('/hello')
     expect(spy).toHaveBeenCalledTimes(2)
