@@ -1,4 +1,5 @@
 import * as request from 'supertest'
+import { createWinstonLogger } from '../middleware/Logger'
 import server from '../server'
 
 afterAll(() => {
@@ -54,5 +55,27 @@ describe('Tests for task2', () => {
       .set('Authorization', 'Basic YWRtaW48MTIz')
     expect(response.status).toBe(401)
     expect(response.body).toEqual({ msg: 'invalid username or password' })
+  })
+})
+
+describe('tests for logger', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  test('log method should be called', async () => {
+    const spy = jest.spyOn(createWinstonLogger(), 'log')
+    await request(server).get('/hello')
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  test('log method should be called even when error', async () => {
+    const spy = jest
+      .spyOn(createWinstonLogger(), 'log')
+      .mockImplementationOnce(() => {
+        throw new Error('generated error')
+      })
+    await request(server).get('/hello')
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 })

@@ -1,5 +1,6 @@
 import * as Koa from 'koa'
 import * as bodyParser from 'koa-bodyparser'
+import Logger from './middleware/Logger'
 import task1 from './routes/task1'
 import task2 from './routes/task2'
 const app = new Koa()
@@ -7,6 +8,7 @@ const app = new Koa()
 const PORT = process.env.PORT || 3000
 
 app.use(bodyParser())
+app.use(Logger)
 app.use(task1.routes()).use(task1.allowedMethods())
 app.use(task2.routes()).use(task1.allowedMethods())
 
