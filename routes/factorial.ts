@@ -3,7 +3,7 @@ import Auth from '../middleware/Auth'
 import { routeHelper } from './routerHandler'
 import { KoaContext, middleware } from '../types'
 
-interface Task3Router {
+interface FactorialRouter {
   fast: (n: number) => number
   slow: (n: number) => number
   calculateFactorial: (ctx: KoaContext) => response | errorResponse
@@ -29,14 +29,14 @@ type errorResponse = {
   }
 }
 
-export class Task3 implements Task3Router {
-  public static instance: Task3 | undefined = undefined
+export class Factorial implements FactorialRouter {
+  public static instance: Factorial | undefined = undefined
   private divisor = 1e9 + 7
   private lookup = {}
-  public static getInstance(): Task3 {
+  public static getInstance(): Factorial {
     if (this.instance !== undefined) return this.instance
     else {
-      this.instance = new Task3()
+      this.instance = new Factorial()
       return this.instance
     }
   }
@@ -111,7 +111,7 @@ export class Task3 implements Task3Router {
 }
 
 const router = new Router()
-const Task3Instance = Task3.getInstance()
+const factorialInstance = Factorial.getInstance()
 type methods = 'GET'
 
 const routes: {
@@ -124,7 +124,7 @@ const routes: {
     url: `/api/v1/factorial/:number`,
     methods: ['GET'],
     middleware: [Auth],
-    route: Task3Instance.calculateFactorial,
+    route: factorialInstance.calculateFactorial,
   },
 ]
 
